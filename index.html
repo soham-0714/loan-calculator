@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Loan Calculator</title>
+
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        background: linear-gradient(135deg, #4facfe, #00f2fe);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        margin: 0;
+    }
+
+    .calculator {
+        background: #fff;
+        padding: 25px;
+        border-radius: 15px;
+        box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+        width: 320px;
+        text-align: center;
+    }
+
+    h2 {
+        margin-bottom: 20px;
+    }
+
+    input {
+        width: 90%;
+        padding: 10px;
+        margin: 10px 0;
+        border-radius: 8px;
+        border: 1px solid #ccc;
+        font-size: 16px;
+    }
+
+    button {
+        background: #4facfe;
+        color: white;
+        border: none;
+        padding: 12px;
+        width: 100%;
+        border-radius: 8px;
+        font-size: 16px;
+        cursor: pointer;
+        transition: 0.3s;
+    }
+
+    button:hover {
+        background: #007bff;
+        transform: scale(1.05);
+    }
+
+    .result {
+        margin-top: 20px;
+        text-align: left;
+    }
+
+    .result p {
+        margin: 5px 0;
+        font-weight: bold;
+    }
+</style>
+</head>
+
+<body>
+
+<div class="calculator">
+    <h2>Loan EMI Calculator</h2>
+
+    <input type="number" id="amount" placeholder="Loan Amount (₹)">
+    <input type="number" id="rate" placeholder="Interest Rate (%)">
+    <input type="number" id="years" placeholder="Loan Tenure (Years)">
+
+    <button onclick="calculateEMI()">Calculate EMI</button>
+
+    <div class="result" id="result"></div>
+</div>
+
+<script>
+function calculateEMI() {
+    let P = document.getElementById("amount").value;
+    let annualRate = document.getElementById("rate").value;
+    let years = document.getElementById("years").value;
+
+    if (P === "" || annualRate === "" || years === "") {
+        alert("Please fill all fields");
+        return;
+    }
+
+    let R = annualRate / 12 / 100;
+    let N = years * 12;
+
+    let EMI = (P * R * Math.pow(1 + R, N)) / (Math.pow(1 + R, N) - 1);
+    let totalPayment = EMI * N;
+    let totalInterest = totalPayment - P;
+
+    document.getElementById("result").innerHTML = `
+        <p>Monthly EMI: ₹${EMI.toFixed(2)}</p>
+        <p>Total Interest: ₹${totalInterest.toFixed(2)}</p>
+        <p>Total Payment: ₹${totalPayment.toFixed(2)}</p>
+    `;
+}
+</script>
+
+</body>
+</html>
